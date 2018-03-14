@@ -10,7 +10,7 @@ import java.io.File;
  * Created by User on 14.03.2018.
  */
 public class FileWorker {
-    private static Logger logger = LoggerFactory.getLogger( FileWorker.class );
+    private static Logger logger = LoggerFactory.getLogger("std");
     public static void WriteSongToFile(SimpleMidiFile midi, String filename){
         try{
             midi.getMidiFormat().writeToFile(new File(filename));
