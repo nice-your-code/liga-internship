@@ -11,7 +11,7 @@ import java.io.File;
  */
 public class FileWorker {
     private static Logger logger = LoggerFactory.getLogger("std");
-    public static void WriteSongToFile(SimpleMidiFile midi, String filename){
+    public static void writeSongToFile(SimpleMidiFile midi, String filename){
         try{
             midi.getMidiFormat().writeToFile(new File(filename));
         }
@@ -19,7 +19,7 @@ public class FileWorker {
             throw new RuntimeException(e);
         }
     }
-    public static SimpleMidiFile ReadSongFromFile(String filename){
+    public static SimpleMidiFile readSongFromFile(String filename){
             return  new SimpleMidiFile(new File(filename));
     }
 }

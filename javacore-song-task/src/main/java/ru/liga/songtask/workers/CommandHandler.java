@@ -10,12 +10,12 @@ import ru.liga.songtask.domain.SimpleMidiFile;
  */
 public class CommandHandler {
     private static Logger logger = LoggerFactory.getLogger("std");
-    public static void Run(String[] args){
+    public static void run(String[] args){
         if(args.length < 2){
             throw new RuntimeException("Error! Arguments at least must be 2!");
         }
         String fileName = args[0]; String command = args[1];
-        SimpleMidiFile simpleMidiFile = FileWorker.ReadSongFromFile(fileName);
+        SimpleMidiFile simpleMidiFile = FileWorker.readSongFromFile(fileName);
         if(command.compareTo("analise") == 0){
             String log = "analise";
             boolean inFile = false;
@@ -27,7 +27,7 @@ public class CommandHandler {
                 }
             }
             logger.info(FilenameUtils.getFullPath(fileName) + " " + log);
-            Analisator.Analise(simpleMidiFile, fileName, inFile);
+            Analisator.analise(simpleMidiFile, fileName, inFile);
         }
         else if(command.compareTo("change") == 0){
             Integer trans = 0, tempo_percent = 0;
@@ -45,7 +45,7 @@ public class CommandHandler {
             }
             logger.info(fileName + " change " + trans_log + " " + tempo_log);
             Changer.change(simpleMidiFile, trans, tempo_percent);
-            FileWorker.WriteSongToFile(simpleMidiFile, FilenameUtils.getFullPath(fileName) + FilenameUtils.getBaseName(fileName) + trans_log + tempo_log + "." + FilenameUtils.getExtension(fileName));
+            FileWorker.writeSongToFile(simpleMidiFile, FilenameUtils.getFullPath(fileName) + FilenameUtils.getBaseName(fileName) + trans_log + tempo_log + "." + FilenameUtils.getExtension(fileName));
         }
     }
 }

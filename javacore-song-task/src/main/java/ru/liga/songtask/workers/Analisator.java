@@ -19,21 +19,21 @@ import static java.lang.Math.abs;
  */
 public class Analisator {
     private static Logger logger = LoggerFactory.getLogger("std");
-    private static void PutInMap(Map<Object,Integer> m, Object key){
+    private static void putInMap(Map<Object,Integer> m, Object key){
         if(m.get(key) == null){
             m.put(key, 1);
         }else{
             m.put(key, m.get(key) + 1);
         }
     }
-    private static String ShowMap(Map <Object, Integer> m){
+    private static String showMap(Map <Object, Integer> m){
         String out = "\r\n";
         for(Map.Entry<Object, Integer> i: m.entrySet()) {
             out += (i.getKey() + ": " + i.getValue() + "\r\n");
         }
         return out;
     }
-    public static void Analise(SimpleMidiFile simpleMidiFile, String fileName, boolean inFile){
+    public static void analise(SimpleMidiFile simpleMidiFile, String fileName, boolean inFile){
         List<Note> notes = simpleMidiFile.vocalNoteList();
         Map<Object, Integer> high = new TreeMap<>();
         Map<Object, Integer> longs = new TreeMap<>();
@@ -49,10 +49,10 @@ public class Analisator {
                 minNote = notes.get(i).sign().fullName();
                 minMidi = notes.get(i).sign().getMidi();
             }
-            PutInMap(high, notes.get(i).sign().fullName());
-            PutInMap(longs, notes.get(i).durationTicks() * simpleMidiFile.tickInMs());
+            putInMap(high, notes.get(i).sign().fullName());
+            putInMap(longs, notes.get(i).durationTicks() * simpleMidiFile.tickInMs());
             if(i != 0) {
-                PutInMap(inter, abs(notes.get(i).sign().getMidi() - notes.get(i-1).sign().getMidi()));
+                putInMap(inter, abs(notes.get(i).sign().getMidi() - notes.get(i-1).sign().getMidi()));
             }
         }
         // logs (2)
@@ -63,11 +63,11 @@ public class Analisator {
         logger.info("нижняя: " + minNote);
         logger.info("диапазон: " + (maxMidi - minMidi));
         logger.info("Анализ длительности нот (мс):");
-        logger.info(ShowMap(longs));
+        logger.info(showMap(longs));
         logger.info("Анализ нот по высоте:");
-        logger.info(ShowMap(high));
+        logger.info(showMap(high));
         logger.info("Анализ интервалов:");
-        logger.info(ShowMap(inter));
+        logger.info(showMap(inter));
         // file (1)
         if(inFile){
             try (FileWriter fout = new FileWriter(FilenameUtils.getFullPath(fileName) + "analise.txt", false)){
@@ -78,11 +78,11 @@ public class Analisator {
                 fout.write("нижняя: " + minNote + "\r\n");
                 fout.write("диапазон: " + (maxMidi - minMidi) + "\r\n");
                 fout.write("Анализ длительности нот (мс):");
-                fout.write(ShowMap(longs));
+                fout.write(showMap(longs));
                 fout.write("Анализ нот по высоте:");
-                fout.write(ShowMap(high));
+                fout.write(showMap(high));
                 fout.write("Анализ интервалов:");
-                fout.write(ShowMap(inter));
+                fout.write(showMap(inter));
             }
             catch(IOException e){
                 throw new RuntimeException(e);
